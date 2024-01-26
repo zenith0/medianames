@@ -17,7 +17,7 @@ def scan_folder(path):
 
 
             # Print folder names
-            """ print("\nFolders:")
+            print("\nFolders:")
             for folder in folders:               
                 cleaned_name = clean_folder_name(os.path.basename(folder))
                 print("Cleaned folder name: ", cleaned_name)
@@ -43,7 +43,7 @@ def scan_folder(path):
                     shutil.move(ugly_path, pretty_path)
                     shutil.move(pretty_path, desired_path)
                 except Exception as e:
-                    print(f"Could not move {path} -> {desired_path}: {e}") """
+                    print(f"Could not move {path} -> {desired_path}: {e}") 
 
 
             # Print file names
@@ -54,7 +54,14 @@ def scan_folder(path):
                     show = get_show(cleaned_file).capitalize()
                     season = get_season(cleaned_file).upper()
                     desired_path = os.path.join(path, show, season)
-                    shutil.move(os.path.join(path, file), desired_path)
+                    try:
+                        os.makedirs(desired_path)
+                    except Exception as e:
+                        print(f"Could not create directory: {desired_path} {e}")
+                    try:
+                        shutil.move(os.path.join(path, file), desired_path)
+                    except Exception as e:
+                        print(f"Could not move {path} -> {desired_path}: {e}") 
 
                 
         else:
